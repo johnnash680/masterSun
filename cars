@@ -1,0 +1,66 @@
+  <!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Упражнения по ООП</title>
+</head>
+<body>
+	<h1></h1>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.js"></script>
+
+	<script type="text/javascript">
+		
+		// Упражнение 1: Рисование в конструкторе Car (внести метод рисования draw в конструктор объектов)
+		// напишем функцию конструктора для будущих объектов, который автоматически будет показывать объекты на соответствующих 
+		// координатах (x, y)
+
+		function Car (x, y, speed) { // аргумент speed в аргументе Car в рамках Упражнения 2
+			this.x = x;
+			this.y = y;
+
+			//внесем метод рисования объекта в констуктор объектов
+			var carHtml = '<img src="https://nostarch.com/images/car.png">';
+
+			this.carElement = $(carHtml);
+
+			this.carElement.css({
+				position: "absolute",
+				left: this.x,
+				top: this.y
+			});	
+
+			$("body").append(this.carElement);
+
+		// Упражнение 2: добавить новое свойство speed в конструктор Car (нужно доработать конструктор, чтобы он добавлял новым объектам свойство скорость со значением 5); используйте это свойство в методах перемещения вместо числа 5
+
+			this.speed = speed;
+
+		};
+
+			// добавим новые метоы для перемещения машин по экрану
+			// метод moveRight передвигает машину вправо на 5 пикселей 
+		Car.prototype.moveRight = function () {
+		//  this.x += 5 меняем на += this.speed в рамках Упражнения 2	
+			this.x += this.speed;
+
+			this.carElement.css({
+				left: this.x,
+				top: this.y
+			});
+		};
+
+		function carsMoveRight () {
+			tesla.moveRight();
+			nissan.moveRight();
+			volvo.moveRight();
+		};
+
+		setInterval(carsMoveRight, 30);
+
+		var tesla = new Car (20, 20, 8);
+		var nissan = new Car (20, 200, 7);
+		var volvo = new Car (20, 300, 11);
+
+	</script>
+</body>
+</html>
