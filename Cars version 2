@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Гонки</title>
+</head>
+<body>
+    // зададим общий фон
+	<img src="https://i.postimg.cc/QxCWxT85/9.png" alt="Задана ширина и высота" width="1800" height="500">
+
+	<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.js"></script>
+	
+	<script type="text/javascript">
+		
+		//напишем функцию конструктора для будущих объектов
+		function Car (x, y) {
+			this.x = x;
+			this.y = y;
+
+			//внесем метод рисования объекта в констуктор объектов
+			var carHtml = '<img src="https://nostarch.com/images/car.png">';
+
+			this.carElement = $(carHtml);
+
+			this.carElement.css({
+				position: "absolute",
+				left: this.x,
+				top: this.y
+			});	
+
+			$("body").append(this.carElement);
+		};
+		
+		// добавим новые метоы для перемещения машин по экрану
+		// метод moveRight передвигает машину вправо на случайное число пикселей от о до 9
+		Car.prototype.moveRight = function () {
+			var speed = Math.floor(Math.random() * 10);
+			this.x += speed;
+
+			this.carElement.css({
+				left: this.x,
+				top: this.y
+			});
+		};
+		
+
+		var tesla = new Car (20, 180);
+		var nissan = new Car (20, 240);
+		var volvo = new Car (20, 310);
+
+		// функция активации движения car направо
+		function carsMoveRight () {
+			tesla.moveRight();
+			nissan.moveRight();
+			volvo.moveRight();
+		};
+
+		setInterval(carsMoveRight, 10);
+
+	</script>
+</body>
+</html>
