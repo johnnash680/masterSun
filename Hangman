@@ -6,7 +6,7 @@
 	</head>
 	<body>
 		<h2>Желаем вам интересной игры!</h2>
-    <h2>Enjoy to play!</h2>
+    		<h2>Enjoy to play!</h2>
 		
 		<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.js"></script>	
 		
@@ -15,7 +15,7 @@
 			var words = ["виселица", "ласты", "доуншифтинг", "спортивный", "аргентина", "тетрис", "безумство", "велосипед", "скальник", "деревянный", "солдатик", "пепел", "рыба", "программа", "макака", "прекрасный", "оладушек"];
 			var randomWord = words[Math.floor(Math.random() * words.length)];
 			// create Array for safe the answer of player 
-      // создание массива для хранения правильно угаданных букв 
+      			// создание массива для хранения правильно угаданных букв 
 			var answerArray = [];
 
 			for (var i = 0; i < randomWord.length; i++) {
@@ -31,33 +31,33 @@
 			
 			while (remainingLetters > 0 && attempt > 0) {
 				// to show player progress
-        // показываем нынешнее состояние игры
+        			// показываем нынешнее состояние игры
 				alert(answerArray.join(" "));
 
 				// request an answer option
 				// запрашиваем вариант ответа
-				var quess = prompt("Введите вашу букву");
+				var guess = prompt("Введите вашу букву");
 
-				if (quess === null) {
+				if (guess === null) {
 					break;
-				} else if (quess.length !== 1) {
+				} else if (guess.length !== 1) {
 					alert("Введите только одну букву");
 				} else {
 
-          // the ability to enter capital letters
+          				// the ability to enter capital letters
 					// возможность вводить заглавные буквы
-					quess = quess.toLowerCase(); 
+					guess = guess.toLowerCase(); 
 					attempt--;
 			
-        // update game process
+        			// update game process
 				// обновляем состояние игры
 				for (var j = 0; j < randomWord.length; j++) {
-					if (randomWord[j] === quess && answerArray[j] === "_") { 
+					if (randomWord[j] === guess && answerArray[j] === "_") { 
 
 					// bug fix of repeat decrement
-          // иправление ошибки, что при вводе одинакой буквы повторно, 
+          				// иправление ошибки, что при вводе одинакой буквы повторно, 
 					// пишется декрент на переменную оставшихся букв - remainingLetters  
-					answerArray[j] = quess;
+					answerArray[j] = guess;
 					remainingLetters--;
 					}
 				}
@@ -66,7 +66,7 @@
 
 			if (attempt > 0) {
 
-        // show response and congratulate user
+        			// show response and congratulate user
 				// отоброжаем ответ, поздравляем игрока
 				alert(answerArray.join(" "));
    				alert("CONGRATULATION! ВЫ ПОБЕДИЛИ. Было загадано слово - " + randomWord);
@@ -74,12 +74,12 @@
 				alert("Вы израсходовали все свои попытки! Было загадано слово: " + randomWord);
 			}
 			
-      // play again ability
+      			// play again ability
 			// предложение сыграть ещё
    			var nextTour = confirm("Сыграем ещё?");
     		if (nextTour) {
 
-    			// reboot window of browser
+    				// reboot window of browser
    				//перезагрузка окна браузера
    				window.location.reload(); 
    			} 
