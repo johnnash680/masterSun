@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Упражнения: анимация в Canvas</title>
+</head>
+<body>
+	<canvas id="canvas" width="500" height="300"></canvas>
+	<h3><b>Movings colorful balls with inertia relative to the walls</b></h3>
+	<script type="text/javascript">
+		
+	var canvas = document.getElementById("canvas");
+	var ctx = canvas.getContext("2d");
+
+// Exercise 4: colorful balls
+	var colors = ["Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Gold", "Black"];
+
+	// constructor of balls
+	function Ball () {
+		this.x = 250;
+		this.y = 150;
+		this.xSpeed = Math.random()*10 - 5;
+		this.ySpeed = Math.random()*10 - 5;
+		this.color = colors[Math.floor(Math.random() * colors.length)];
+	};
+
+	// drawing ball through prototype
+	var circle = function (x, y, r, fillCircle, color) {
+		ctx.beginPath();
+		ctx.arc(x, y, r, 0, Math.PI*2, false);
+
+		if (fillCircle) {
+			ctx.fill();
+			ctx.fillStyle = color;
+		} else {
+			ctx.stroke();
+			ctx.strokeStyle = color;
+		}
+	};
+
+	Ball.prototype.draw = function() {
+		circle(this.x, this.y, 10, true, this.color);
+	};
+
+	// Moving ball
+	Ball.prototype.move = function () {
+		this.x += this.xSpeed;
+		this.y += this.ySpeed;
+	};
+
+	// rebound the ball from the border of the canvas area; check Collision
+	Ball.prototype.checkCollision = function () {
+		if (this.x < 10 || this.x > 490) {
+		 	this.xSpeed = - this.xSpeed;
+		}
+		if (this.y < 10 || this.y > 290) {
+		 	this.ySpeed = - this.ySpeed;
+		}
+	};
+
+	// animation of the balls
+	var balls = [];
+
+	for (var i = 0; i < 10; i++) {
+		balls[i] = new Ball();
+	}
+
+	setInterval(function () {
+		ctx.clearRect(0, 0, 500, 300);
+
+		balls[0].draw();
+		balls[0].move();
+		balls[0].checkCollision();
+
+		balls[1].draw();
+		balls[1].move();
+		balls[1].checkCollision();
+
+		balls[2].draw();
+		balls[2].move();
+		balls[2].checkCollision();
+
+		balls[3].draw();
+		balls[3].move();
+		balls[3].checkCollision();
+
+		balls[4].draw();
+		balls[4].move();
+		balls[4].checkCollision();
+
+		balls[5].draw();
+		balls[5].move();
+		balls[5].checkCollision();
+
+		balls[6].draw();
+		balls[6].move();
+		balls[6].checkCollision();
+
+		balls[7].draw();
+		balls[7].move();
+		balls[7].checkCollision();
+
+		balls[8].draw();
+		balls[8].move();
+		balls[8].checkCollision();
+
+		balls[9].draw();
+		balls[9].move();
+		balls[9].checkCollision();
+
+		ctx.strokeRect(0, 0, 500, 300);	
+	}, 30);	
+	</script>
+</body>
+</html>
