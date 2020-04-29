@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Управление анимациями с клавиатуры</title>
+</head>
+<body>
+	<canvas id="canvas" width="500" height="500"></canvas>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.js"></script>
+	<script type="text/javascript">
+
+		// Управление движением объекта с клавиатуры
+		var canvas = document.getElementById("canvas");
+		var ctx = canvas.getContext("2d");
+		var width = canvas.width;
+		var height = canvas.height;
+
+		// рисуем объект
+		var circle = function (x, y, r, fillCircle, color) {
+			ctx.beginPath();
+			ctx.arc(x, y, r, 0, Math.PI*2, false);
+			if (fillCircle) {
+				ctx.fill();
+				ctx.fillStyle = color; // рандомно задающийся цвет из конструктора в начале каждого запуска
+				ctx.stroke();
+			} else {
+				ctx.stroke();
+			}
+		};
+
+		// создадим конструктор Ball
+		function Ball () {
+			this.x = width/2;
+			this.y = height/2;
+			this.xSpeed = 5;
+			this.ySpeed = 0;
+			this.speed = 5;
+			this.radius = 10;
+			this.color = 'rgb(' + String(Math.floor(Math.random() * 256)) + ", " + String(Math.floor(Math.random() * 256)) + ", " + String(Math.floor(Math.random() * 256)) + ")"
+		};
+
+		// создадим метод draw конструктора Ball
+		Ball.prototype.draw = function () {
+			circle(this.x, this.y, this.radius, true, this.color);
+		};
+
+		// создадим метод move конструктора Ball
+		Ball.prototype.move = function () {
+			this.x += this.xSpeed;
+			this.y += this.ySpeed;
+
+			if (this.x < this.radius || this.x > width - this.radius) {
+				this.xSpeed = -this.xSpeed;
+			}
+			if (this.y < this.radius || this.y > height - this.radius) {
+				this.ySpeed = - this.ySpeed;
+			}
+
+		};
+
+		// создадим метод setDirection конструктора Ball
+		Ball.prototype.setDirection = function (direction, speed, optionOfSpeed, optionOfSize) {
+			// меняем направление движения при нажатии кнопок вверх, вниз, вправо, влево 
+			// останавливаем при нажатии кнопки стоп
+			if (direction === "up") {
+				this.xSpeed = 0;
+				this.ySpeed = - this.speed;
+			} else if (direction === "down") {
+				this.xSpeed = 0;
+				this.ySpeed = this.speed;
+			} else if (direction === "right") {
+				this.xSpeed = this.speed;
+				this.ySpeed = 0;
+			} else if (direction === "left") {
+				this.xSpeed = - this.speed;
+				this.ySpeed - 0;
+			} else if (direction === "stop") {
+				this.xSpeed = 0;
+				this.ySpeed = 0;
+			}
+
+			// меняем скорость движения объекта при нажатии кнопок от 1 до 9
+			if (speed === 1) {
+				this.speed = 1;
+			} else if (speed === 2) {
+				this.speed = 2;
+			}else if (speed === 3) {
+				this.speed = 3;
+			}else if (speed === 4) {
+				this.speed = 4;
+			}else if (speed === 5) {
+				this.speed = 5;
+			}else if (speed === 6) {
+				this.speed = 6;
+			}else if (speed === 7) {
+				this.speed = 7;
+			}else if (speed === 8) {
+				this.speed = 8;
+			}else if (speed === 9) {
+				this.speed = 9;
+			}
+
+			// тормозим и разгоняем объект
+			if (optionOfSpeed === "x") {
+				this.speed++;;
+			} else if (optionOfSpeed === "z") {
+				this.speed--;
+			}
+			// проверка, что скорость не может упасть ниже 0
+			if (this.speed < 0) {
+				this.speed = 0;
+			}
+
+			// увеличиваем и уменьшаем объём мяча
+			if (optionOfSize === "v") {
+				this.radius++;
+			} else if (optionOfSize === "c") {
+				this.radius--;
+			}
+
+			// проверка на положительный радиус
+			if (this.radius < 1) {
+				this.radius = 1;
+			}
+		};
+
+		var ball = new Ball();
+
+		// управление стрелками - keyActions
+		var keyActions = {
+			32: "stop",
+			37: "left",
+			38: "up",
+			39: "right",
+			40: "down"
+		};
+		// реакция на нажатия клавиш и изменение скоростей - цифры - keyActions
+		var speeds = {
+			49: 1,
+			50: 2,
+			51: 3,
+			52: 4,
+			53: 5,
+			54: 6,
+			55: 7,
+			56: 8,
+			57: 9
+		};
+
+		// реакция на нажатие x и z - увеличение и замедление скорости движения объекта
+		var gameSpeed = {
+			88: "x",
+			90: "z"			
+		};
+
+		// реакция на клавиши c и v - уменьшение и увеличение радиуса мяча
+		var objectSize = {
+			67: "c",
+			86: "v"
+		};
+
+		// обработчик событий с клавиатуры
+		$("body").keydown(function (event) {
+			var direction = keyActions[event.keyCode];
+			var speed = speeds[event.keyCode];
+			var optionOfSpeed = gameSpeed[event.keyCode];
+			var optionOfSize = objectSize[event.keyCode]; 
+			ball.setDirection(direction, speed, optionOfSpeed, optionOfSize);
+		});
+
+		// анимация мяча
+		setInterval(function () {
+			ctx.clearRect(0, 0, width, height);
+			ball.draw();
+			ball.move();
+			ctx.strokeRect(0, 0, width, height);
+		}, 30);
+
+	</script>
+</body>
+</html>
